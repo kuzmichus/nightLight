@@ -14,7 +14,8 @@
 Кузин Сергей <sergey@kuzin.name>
 */
 
-#define LEDPIN 2
+#define LEDPIN 5
+#define MOVELEDPIN 13
 #define PIRPIN 3
 #define FOTOPIN 0
 
@@ -31,10 +32,10 @@ bool isMotion = false;
 int  currentLevel = MINLEDLEVEL;
 
 void setup()
-{
-  Serial.begin(57600);
+{ 
   pinMode(LEDPIN, OUTPUT);
   pinMode(PIRPIN, INPUT);
+  pinMode(MOVELEDPIN, OUTPUT);
 }
 
 void loop()
@@ -46,11 +47,15 @@ void loop()
     isDark = false;
   }
 
-  if (digitalRead(PIRPIN) == HIGH && isDark) {
-    isLed = ON;
+  if (digitalRead(PIRPIN) == HIGH) {    
+    digitalWrite(13, HIGH);
+    if (isDark) {
+      isLed = ON;
+    }
   }
   else {
     isLed = OFF;
+    digitalWrite(13, LOW);    
   }
 
   if (isLed) {
